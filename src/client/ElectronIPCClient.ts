@@ -5,7 +5,7 @@ import { IPCResponse } from "../response/IPCResponse";
 import { IPCCookie } from "./IPCCookie";
 import { nanoid } from "nanoid";
 
-export class IPCClient {
+export class ElectronIPCClient {
 
   private _requestTimeout = 10000;
 

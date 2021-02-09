@@ -27,6 +27,9 @@ export class WorkerIPCClient {
   private __preserveResolvedRequests = false;
 
   private __responseListener = async (response: IPCResponse) => {
+    
+    console.log("[WorkerClient] new response received\n", response);
+
     if (response.status === "error") {
       this.rejectPending(response._id, response.payload);
       return;
@@ -37,7 +40,7 @@ export class WorkerIPCClient {
       return;
     }
 
-    console.error("Abnormal response status -> ", response.status);
+    console.error("[WorkerClient] Abnormal response status -> ", response.status);
   };
 
   constructor(private worker: Worker) {
@@ -167,7 +170,6 @@ export class WorkerIPCClient {
   }
 
   public request<T = any>(info: IPCRequest): Promise<T> {
-    console.log("New worker request!", info);
     return new Promise<T>((resolve, reject) => {
       // Add a timeout rejection
       if (this._requestTimeout > 0) {
@@ -190,7 +192,7 @@ export class WorkerIPCClient {
 
         reject = (r) => {
           clearTimeout(timeoutId);
-          promiseRejection;
+          promiseRejection(r);
         };
       }
 
@@ -199,7 +201,6 @@ export class WorkerIPCClient {
         resolve,
         reject,
       };
-      console.log("Will now post message to worker!");
       this.worker.postMessage(info);
     });
   }
@@ -234,6 +235,7 @@ export class WorkerIPCClient {
       try {
         this.stop();
       } catch (err) {
+        console.error("[WorkerClient] failed to remove client", err);
       }
       this.worker = worker;
       this.start();

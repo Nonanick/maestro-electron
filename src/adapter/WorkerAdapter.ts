@@ -20,7 +20,6 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
   protected _handler?: RequestHandlerFunction;
 
   protected _messagePortListener = async (req: IPCRequest) => {
-    console.log("Message received", req);
 
     let route = this.findMatchingRoute(req.method, req.url);
 
@@ -32,7 +31,6 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
         status: "error",
         payload: "required route was not found on the server!",
       };
-
       this.port.postMessage(routeNotFound);
 
       return;
@@ -40,7 +38,7 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
       req.urlParams = { ...route.urlParams };
     }
 
-    console.log("New Request received", req);
+    console.log("[WorkerAdapter] new request received\n", req);
 
     let request = TransformRequest(req, route.url);
 
@@ -117,7 +115,7 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
       }
     }
 
-    console.info(`Route [${method}]${url} NOT FOUND`);
+    console.info(`[WorkerAdapter] Route [${method}]${url} NOT FOUND`);
 
     return;
   }
@@ -126,7 +124,7 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
     if (!this._containers.includes(container)) {
       this._containers.push(container);
     } else {
-      console.warn("Container included twice in adapter!");
+      console.warn("[WorkerAdapter] Container included twice in adapter!");
     }
   }
 

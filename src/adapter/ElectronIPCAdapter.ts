@@ -35,12 +35,11 @@ export class ElectronIPCAdapter extends EventEmitter implements IAdapter {
       req.urlParams = { ...route.urlParams };
     }
 
-    console.log('New Request received', req);
+    console.log('[IPCAdapter]: -> new request received\n', req);
 
     let request = TransformRequest(req, route.url);
 
     let sendResponse: SendResponseFunction = (response) => {
-      console.log("Responding to request ", req._id, "\nPayload: ", response.payload);
 
       let resp: IPCResponse = {
         _id: req._id,
@@ -113,7 +112,7 @@ export class ElectronIPCAdapter extends EventEmitter implements IAdapter {
       }
     }
 
-    console.info(`Route [${method}]${url} NOT FOUND`);
+    console.info(`[IPCAdapter]: Route [${method}]${url} NOT FOUND`);
 
     return;
   }
@@ -122,7 +121,7 @@ export class ElectronIPCAdapter extends EventEmitter implements IAdapter {
     if (!this._containers.includes(container)) {
       this._containers.push(container);
     } else {
-      console.warn('Container included twice in adapter!');
+      console.warn('[IPCAdapter]: Container included twice in adapter!');
     }
   }
 
@@ -131,7 +130,7 @@ export class ElectronIPCAdapter extends EventEmitter implements IAdapter {
   }
 
   start(): void {
-    console.log('IPC Adapter started!');
+    console.log('[IPCAdapter]: IPC Adapter started!');
     this.ipc.on(IPCAdapterNewRequestEvent, this._ipcListener);
   }
 
@@ -140,8 +139,6 @@ export class ElectronIPCAdapter extends EventEmitter implements IAdapter {
   }
 
 }
-
-
 
 export const IPCAdapterName = 'ElectronIPCChannel';
 

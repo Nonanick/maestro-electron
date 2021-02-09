@@ -28,10 +28,10 @@ export class ElectronIPCClient {
   private __preserveResolvedRequests = false;
 
   private __responseListener = async (event: IpcRendererEvent, ...args: any[]) => {
-
     let response: IPCResponse = args[0];
-
+    
     if (response.status === 'error') {
+      console.log('[IPCClient] New error response received\n', response);
       this.rejectPending(response._id, response.payload);
       return;
     }
@@ -41,7 +41,7 @@ export class ElectronIPCClient {
       return;
     }
 
-    console.error("Abnormal response status -> ", response.status);
+    console.error("[IPCClient]: Abnormal response status -> ", response.status);
 
   };
 

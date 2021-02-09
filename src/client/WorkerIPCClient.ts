@@ -41,7 +41,6 @@ export class WorkerIPCClient {
   };
 
   constructor(private worker: Worker) {
-    console.log("Using Worker client");
   }
 
   setCookie(name: string, info: IPCCookie) {
@@ -167,7 +166,7 @@ export class WorkerIPCClient {
     return this.request<T>(newRequest);
   }
 
-  private request<T = any>(info: IPCRequest): Promise<T> {
+  public request<T = any>(info: IPCRequest): Promise<T> {
     console.log("New worker request!", info);
     return new Promise<T>((resolve, reject) => {
       // Add a timeout rejection

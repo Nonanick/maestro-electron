@@ -45,12 +45,6 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
     let request = TransformRequest(req, route.url);
 
     let sendResponse: SendResponseFunction = (response) => {
-      console.log(
-        "Responding to request ",
-        req._id,
-        "\nPayload: ",
-        response.payload,
-      );
 
       let resp: IPCResponse = {
         _id: req._id,

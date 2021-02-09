@@ -202,7 +202,7 @@ export class ElectronIPCClient {
 
         reject = (r) => {
           clearTimeout(timeoutId);
-          promiseRejection;
+          promiseRejection(r);
         };
       }
 

@@ -235,6 +235,14 @@ export class ElectronIPCClient {
   start() {
     this.ipc.on(IPCAdapterNewResponseEvent, this.__responseListener);
   }
+
+  setDefaultTimeout(timeout : number) {
+    if(timeout <= 0) {
+      this._requestTimeout = 0;
+    } else {
+      this._requestTimeout = timeout;
+    }
+  }
 }
 
 type OnTransitRequest<T> = IPCRequest & {

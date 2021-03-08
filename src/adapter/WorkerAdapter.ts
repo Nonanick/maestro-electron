@@ -38,8 +38,6 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
       req.urlParams = { ...route.urlParams };
     }
 
-    console.log("[WorkerAdapter] new request received\n", req);
-
     let request = TransformRequest(req, route.url);
 
     let sendResponse: SendResponseFunction = (response) => {
@@ -107,7 +105,6 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
       let doesItMatch = matchingFn(url);
 
       if (doesItMatch) {
-        console.log("Matches!", doesItMatch);
         return {
           ...route,
           urlParams: doesItMatch.params,
@@ -115,7 +112,7 @@ export class WorkerAdapter extends EventEmitter implements IAdapter {
       }
     }
 
-    console.info(`[WorkerAdapter] Route [${method}]${url} NOT FOUND`);
+    console.error(`[WorkerAdapter] Route [${method}]${url} NOT FOUND`);
 
     return;
   }
